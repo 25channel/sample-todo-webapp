@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todoリスト - Todo App</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <h1><a href="/">Todo App</a></h1>
+                <ul class="nav-menu">
+                    <li><a href="/">すべてのTodo</a></li>
+                    <li><a href="/create" class="btn btn-primary">新しいTodo</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="page-header">
+            <h2>Todoリスト</h2>
+            <a href="/create" class="btn btn-primary">新しいTodoを作成</a>
+        </div>
+
+        <% if (todos && todos.length > 0) { %>
+            <div class="todo-grid">
+                <% todos.forEach(todo => { %>
+                    <div class="todo-card <%= todo.completed ? 'completed' : '' %>">
+                        <div class="todo-header">
+                            <h3 class="todo-title"><%= todo.title %></h3>
+                            <span class="priority <%= todo.priorityClass %>"><%= todo.priorityText %></span>
+                        </div>
+                        
+                        <% if (todo.content) { %>
+                            <div class="todo-content">
+                                <p><%= todo.content %></p>
+                            </div>
+                        <% } %>
+                        
+                        <div class="todo-meta">
+                            <% if (todo.deadline) { %>
+                                <div class="deadline">
+                                    <strong>期限:</strong> <%= todo.deadline %>
+                                </div>
+                            <% } %>
+                            <div class="created">
+                                <small>作成日: <%= new Date(todo.created_at).toLocaleDateString() %></small>
+                            </div>
+                        </div>
+                        
+                        <div class="todo-actions">
+                            <form method="POST" action="/toggle/<%= todo.id %>" style="display: inline;">
+                                <button type="submit" class="btn btn-sm <%= todo.completed ? 'btn-warning' : 'btn-success' %>">
+                                    <%= todo.completed ? '未完了に戻す' : '完了にする' %>
+                                </button>
+                            </form>
+                            <a href="/edit/<%= todo.id %>" class="btn btn-sm btn-secondary">編集</a>
+                            <form method="POST" action="/delete/<%= todo.id %>" style="display: inline;" onsubmit="return confirm('本当に削除しますか？')">
+                                <button type="submit" class="btn btn-sm btn-danger">削除</button>
+                            </form>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        <% } else { %>
+            <div class="empty-state">
+                <h3>Todoがありません</h3>
+                <p>新しいTodoを作成して始めましょう！</p>
+                <a href="/create" class="btn btn-primary">最初のTodoを作成</a>
+            </div>
+        <% } %>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Todo App</p>
+        </div>
+    </footer>
+</body>
+</html>
