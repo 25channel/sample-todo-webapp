@@ -6,12 +6,19 @@ class TodoController {
         this.db = this.database.getDB();
     }
 
-    // Get all todos
-    getAllTodos(callback) {
-        const sql = `
+    // Get all todos (optionally filtered by priority)
+    getAllTodos(priority, callback) {
+        let sql = `
             SELECT id, title, content, deadline, priority, completed, 
                    created_at, updated_at
-            FROM todos 
+            FROM todos
+        `;
+        const params = [];
+        if (typeof priority !== 'undefined' && !isNaN(priority)) {
+            sql += ' WHERE priority = ?';
+            params.push(priority);
+        }
+        sql += `
             ORDER BY 
                 CASE priority 
                     WHEN 3 THEN 0 
@@ -21,7 +28,7 @@ class TodoController {
                 deadline ASC,
                 created_at DESC
         `;
-        this.db.all(sql, [], callback);
+        this.db.all(sql, params, callback);
     }
 
     // Get todo by id

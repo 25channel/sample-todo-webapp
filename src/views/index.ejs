@@ -20,10 +20,21 @@
     </header>
 
     <main class="container">
+
         <div class="page-header">
             <h2>Todoリスト</h2>
             <a href="/create" class="btn btn-primary">新しいTodoを作成</a>
         </div>
+
+        <form method="GET" action="/" class="filter-form" style="margin-bottom: 1em;">
+            <label for="priority">優先度で絞り込み:</label>
+            <select name="priority" id="priority" onchange="this.form.submit()">
+                <option value="">すべて</option>
+                <option value="3" <%= typeof selectedPriority !== 'undefined' && selectedPriority == 3 ? 'selected' : '' %>>高</option>
+                <option value="2" <%= typeof selectedPriority !== 'undefined' && selectedPriority == 2 ? 'selected' : '' %>>中</option>
+                <option value="1" <%= typeof selectedPriority !== 'undefined' && selectedPriority == 1 ? 'selected' : '' %>>低</option>
+            </select>
+        </form>
 
         <% if (todos && todos.length > 0) { %>
             <div class="todo-grid">
