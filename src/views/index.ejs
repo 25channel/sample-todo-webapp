@@ -28,12 +28,13 @@
 
         <form method="GET" action="/" class="filter-form" style="margin-bottom: 1em;">
             <label for="priority">優先度で絞り込み:</label>
-            <select name="priority" id="priority" onchange="this.form.submit()">
+            <select name="priority" id="priority">
                 <option value="">すべて</option>
                 <option value="3" <%= typeof selectedPriority !== 'undefined' && selectedPriority == 3 ? 'selected' : '' %>>高</option>
                 <option value="2" <%= typeof selectedPriority !== 'undefined' && selectedPriority == 2 ? 'selected' : '' %>>中</option>
                 <option value="1" <%= typeof selectedPriority !== 'undefined' && selectedPriority == 1 ? 'selected' : '' %>>低</option>
             </select>
+            <button type="submit" class="btn btn-secondary" style="margin-left: 0.5em;">絞り込む</button>
         </form>
 
         <% if (todos && todos.length > 0) { %>

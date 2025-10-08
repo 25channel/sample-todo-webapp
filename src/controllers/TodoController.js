@@ -14,7 +14,7 @@ class TodoController {
             FROM todos
         `;
         const params = [];
-        if (typeof priority !== 'undefined' && !isNaN(priority)) {
+        if (Number.isInteger(priority) && priority >= 1 && priority <= 3) {
             sql += ' WHERE priority = ?';
             params.push(priority);
         }
